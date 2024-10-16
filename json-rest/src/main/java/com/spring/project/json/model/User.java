@@ -1,10 +1,11 @@
 package com.spring.project.json.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 @Data
@@ -15,8 +16,13 @@ import java.util.List;
         @UniqueConstraint(columnNames = "email")
 })
 @AllArgsConstructor
-public class User extends BaseEntity{
+public class User{
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String name;
     private String username;
     private String password;
     private String email;
@@ -24,6 +30,14 @@ public class User extends BaseEntity{
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Booking> bookings;
+
+    public User(String username, String password, String name, String email, String role) {
+        this.username = username;
+        this.password = password;
+        this.name = name;
+        this.email = email;
+        this.role = role;
+    }
 
 
 }
