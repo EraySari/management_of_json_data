@@ -28,8 +28,7 @@ public class Cabin{
     private Integer discount;
     private Integer regularPrice;
 
-    @OneToMany(mappedBy = "cabin", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Booking> bookings;
+
 
     public Cabin(String name, Integer maxCapacity, String description, Integer discount, Integer regularPrice) {
         this.name = name;

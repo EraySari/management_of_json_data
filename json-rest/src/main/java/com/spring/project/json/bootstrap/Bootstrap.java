@@ -11,8 +11,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+
 
 import java.util.Arrays;
 import java.util.List;
@@ -35,7 +35,7 @@ public class Bootstrap implements CommandLineRunner {
         if(userRepository.count() < 1){
 
             USERS.forEach(userService::saveUser);
-            CABINS.forEach(cabinRepository::save);
+            cabinRepository.saveAll(CABINS);
 
 
         }
@@ -44,15 +44,14 @@ public class Bootstrap implements CommandLineRunner {
 
     private static final List<User> USERS = Arrays.asList(
             new User("admin", "admin", "Admin", "admin@mycompany.com", WebSecurityConfig.ADMIN),
-            new User("user", "user", "User", "user@mycompany.com", WebSecurityConfig.USER)
+            new User("user", "user", "User", "user@mycompany.com", WebSecurityConfig.USER),
+            new User("user2", "user2", "User2", "user2@mycompany.com", WebSecurityConfig.USER)
+
     );
 
     private static final List<Cabin> CABINS = Arrays.asList(
             new Cabin("cabin1",20,"c1",15,30),
             new Cabin("cabin2",40,"c2",30,60)
     );
-
-
-
 
 }

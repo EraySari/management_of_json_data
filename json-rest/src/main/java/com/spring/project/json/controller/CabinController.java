@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @RestController
@@ -15,17 +16,31 @@ public class CabinController {
 
     private final CabinService cabinService;
 
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping
     public List<Cabin> findAllCabins() {
         return cabinService.findAllCabins();
     }
 
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/{id}")
+    public Optional<Cabin> findCabinById(@PathVariable Long id) {
+        return cabinService.findByCabinId(id);
+    }
+
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public Cabin createBook(@RequestBody Cabin cabin) {
+    public Cabin createCabin(@RequestBody Cabin cabin) {
         return cabinService.save(cabin);
     }
 
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    @PutMapping("/{id}")
+    public Cabin updateCabin(@PathVariable Long id,@RequestBody Cabin cabin) {
+        return cabinService.update(id,cabin);
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
     public void deleteCabin(@PathVariable Long id) {
         cabinService.delete(id);

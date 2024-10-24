@@ -31,6 +31,7 @@ public class AuthController {
 
     private final UserService userService;
 
+    @ResponseStatus(HttpStatus.OK)
     @PostMapping("/authenticate")
     public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest loginRequest) {
         Optional<User> userOptional = userService.validUsernameAndPassword(loginRequest.username, loginRequest.password);

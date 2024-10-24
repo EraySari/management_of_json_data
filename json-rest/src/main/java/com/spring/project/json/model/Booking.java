@@ -38,4 +38,6 @@ public class Booking{
     @ManyToOne
     @JoinColumn(name = "cabin_id",nullable = false)
     private Cabin cabin;
+
+
 }
