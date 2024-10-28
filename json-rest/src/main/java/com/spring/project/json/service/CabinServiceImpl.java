@@ -1,5 +1,6 @@
 package com.spring.project.json.service;
 
+import com.spring.project.json.handler.CabinNotFoundException;
 import com.spring.project.json.model.Cabin;
 import com.spring.project.json.repository.CabinRepository;
 import jakarta.persistence.NoResultException;
@@ -22,8 +23,8 @@ public class CabinServiceImpl implements CabinService{
     }
 
     @Override
-    public Optional<Cabin> findByCabinId(Long id) throws NoResultException {
-        return cabinRepository.findById(id);
+    public Optional<Cabin> findByCabinId(Long id){
+        return Optional.ofNullable(cabinRepository.findById(id).orElseThrow(() -> new CabinNotFoundException(id)));
     }
 
     @Override
@@ -44,11 +45,15 @@ public class CabinServiceImpl implements CabinService{
 
                     return cabinRepository.save(existingCabin);
                 })
-                .orElseThrow(() -> new NoResultException("Cabin not found with id: " + id));
+                .orElseThrow(() -> new CabinNotFoundException(id));
     }
 
     @Override
     public void delete(Long id) {
+
+        if (!cabinRepository.existsById(id)) {
+            throw new CabinNotFoundException(id);
+        }
         cabinRepository.deleteById(id);
     }
 }
