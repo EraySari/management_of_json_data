@@ -2,6 +2,7 @@ package com.spring.project.json.controller;
 
 
 import com.spring.project.json.config.WebSecurityConfig;
+import com.spring.project.json.handler.UserNotFoundException;
 import com.spring.project.json.service.UserService;
 import com.spring.project.json.model.User;
 import lombok.RequiredArgsConstructor;
@@ -34,7 +35,7 @@ public class AuthController {
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/authenticate")
     public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest loginRequest) {
-        Optional<User> userOptional = userService.validUsernameAndPassword(loginRequest.username, loginRequest.password);
+        Optional<User> userOptional = Optional.ofNullable(userService.validUsernameAndPassword(loginRequest.username, loginRequest.password).orElseThrow(() -> new UserNotFoundException("username or password")));
         if (userOptional.isPresent()) {
             User user = userOptional.get();
             return ResponseEntity.ok(new AuthResponse(user.getId(), user.getName(), user.getRole()));

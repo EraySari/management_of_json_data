@@ -1,5 +1,6 @@
 package com.spring.project.json.service;
 
+import com.spring.project.json.handler.BookingNotFoundException;
 import com.spring.project.json.model.Booking;
 import com.spring.project.json.model.User;
 import com.spring.project.json.repository.BookingRepository;
@@ -27,8 +28,9 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public Optional<Booking> findByBookingId(String id) throws NoResultException {
-        return bookingRepository.findById(id);
+    public Optional<Booking> findByBookingId(String id) {
+        return Optional.ofNullable(bookingRepository.findById(id).orElseThrow(() -> new BookingNotFoundException(id)));
+
     }
 
     @Override
@@ -54,12 +56,15 @@ public class BookingServiceImpl implements BookingService {
 
                     return bookingRepository.save(existingBooking);
                 })
-                .orElseThrow(() -> new NoResultException("Cabin not found with id: " + id));
+                .orElseThrow(() -> new BookingNotFoundException(id));
 
     }
 
     @Override
     public void delete(String id) {
+        if (!bookingRepository.existsById(id)) {
+            throw new BookingNotFoundException(id);
+        }
         bookingRepository.deleteById(id);
     }
 }

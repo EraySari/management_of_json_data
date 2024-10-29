@@ -1,5 +1,6 @@
 package com.spring.project.json.service;
 
+import com.spring.project.json.handler.UserNotFoundException;
 import com.spring.project.json.model.User;
 import com.spring.project.json.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +24,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<User> getUserByUsername(String username) {
-        return userRepository.findByUsername(username);
+        return Optional.ofNullable(userRepository.findByUsername(username).orElseThrow(() -> new UserNotFoundException(username)));
     }
 
     @Override
@@ -39,7 +40,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User validateAndGetUserByUsername(String username) {
         return getUserByUsername(username)
-                .orElseThrow(() -> new RuntimeException(String.format("User with username %s not found", username)));
+                .orElseThrow(() -> new UserNotFoundException(username));
     }
 
     @Override
@@ -50,6 +51,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(User user) {
+        if (!hasUserWithUsername(user.getUsername())) {
+            throw new UserNotFoundException(user.getUsername());
+        }
         userRepository.delete(user);
     }
 
