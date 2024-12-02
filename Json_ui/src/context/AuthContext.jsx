@@ -1,16 +1,21 @@
-import { createContext, useState } from "react";
+import { createContext, useContext, useState } from "react";
 
 const AuthContext = createContext();
 
 // eslint-disable-next-line react/prop-types
-function AuthProvider({ children }) {
+export default function AuthProvider({ children }) {
   const [user, setUser] = useState(null); // giris yapan cikis yapani kontrol etmek icin
 
-  function getUser() {
-    localStorage.getItem("user");
+  function userIsLogin() {
+    return localStorage.getItem("user") !== null;
   }
 
-  function userLogin(user) {
+  function getUser() {
+    return localStorage.getItem("user");
+  }
+
+  function userLocal(user) {
+    console.log(user);
     localStorage.setItem("user", user);
     setUser(user);
   }
@@ -21,10 +26,14 @@ function AuthProvider({ children }) {
   }
 
   return (
-    <AuthContext.Provider value={{ user, getUser, userLogin, userLogout }}>
+    <AuthContext.Provider
+      value={{ user, userIsLogin, getUser, userLocal, userLogout }}
+    >
       {children}
     </AuthContext.Provider>
   );
 }
 
-export default AuthProvider;
+export function useAuth() {
+  return useContext(AuthContext);
+}

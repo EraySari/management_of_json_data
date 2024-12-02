@@ -3,8 +3,7 @@ import { userSignup } from "../../services/apiAuth";
 
 export function useSignup() {
   const { mutate: signup, isLoading } = useMutation({
-    mutationFn: ({ name, username, password, email }) =>
-      userSignup({ name, username, password, email }),
+    mutationFn: (data) => userSignup(data),
 
     onSuccess: () => {
       console.log("succes");
