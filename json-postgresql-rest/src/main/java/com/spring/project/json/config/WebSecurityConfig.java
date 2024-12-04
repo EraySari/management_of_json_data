@@ -63,7 +63,7 @@ public class WebSecurityConfig {
          the requested resource.
          */
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowCredentials(true); // test?
+        configuration.setAllowCredentials(false); // test?
         configuration.setAllowedOrigins(allowedOrigins);
         configuration.addAllowedMethod("*");
         configuration.addAllowedHeader("*");

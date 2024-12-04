@@ -1,6 +1,10 @@
 /* eslint-disable no-unused-vars */
 import { useForm } from "react-hook-form";
 import { useSignup } from "./useSignup";
+import styled from "styled-components";
+import Form from "../../ui/Form";
+import FormRow from "../../ui/FormRow";
+import Input from "../../ui/Input";
 
 function SignupForm() {
   const { register, handleSubmit } = useForm();
@@ -8,36 +12,43 @@ function SignupForm() {
   const { signup, isLoading } = useSignup();
 
   const onSubmit = function (data) {
-    const { name, username, password, email } = data;
-    // console.log(data);
-    signup({ name, username, password, email });
+    signup(data);
   };
+
   const onError = function (err) {
     console.log(err);
   };
   return (
     <>
-      <form onSubmit={handleSubmit(onSubmit, onError)}>
-        <div>
-          <label id="name">Name</label>
-          <input type="text" id="name" {...register("name")} />
-        </div>
-        <div>
-          <label id="password">Password</label>
-          <input type="password" id="username" {...register("password")} />
-        </div>
-        <div>
-          <label id="username">Username</label>
-          <input type="text" id="username" {...register("username")} />
-        </div>
-        <div>
-          <label id="email">Email</label>
-          <input type="email" id="email" {...register("email")} />
-        </div>
+      <Form onSubmit={handleSubmit(onSubmit, onError)}>
+        <FormRow label="Full Name">
+          <Input type="text" id="name" {...register("name")} />
+        </FormRow>
+
+        <FormRow label="Username">
+          <Input type="text" id="username" {...register("username")} />
+        </FormRow>
+
+        <FormRow label="Password">
+          <Input type="password" id="password" {...register("password")} />
+        </FormRow>
+
+        <FormRow label="Repeat password">
+          <Input type="password" id="password" {...register("password")} />
+        </FormRow>
+
+        <FormRow label="Email">
+          <Input type="email" id="email" {...register("email")} />
+        </FormRow>
+
         <button>Sign Up</button>
-      </form>
+      </Form>
     </>
   );
 }
 
 export default SignupForm;
+
+//kodu bi incele
+//focuslarda renk degisimi bak belki iyi durur
+//required falan belirle
