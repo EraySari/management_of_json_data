@@ -1,7 +1,10 @@
 package com.spring.project.json.service;
 
+import com.spring.project.json.dto.BookingDTO;
 import com.spring.project.json.handler.BookingNotFoundException;
+import com.spring.project.json.mapper.BookingMapper;
 import com.spring.project.json.model.Booking;
+import com.spring.project.json.model.Cabin;
 import com.spring.project.json.model.User;
 import com.spring.project.json.repository.BookingRepository;
 import jakarta.persistence.NoResultException;
@@ -10,50 +13,57 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class BookingServiceImpl implements BookingService {
 
     private final BookingRepository bookingRepository;
+    private final BookingMapper bookingMapper;
 
     @Override
-    public List<Booking> findAllBookings() {
-        return bookingRepository.findAll();
+    public List<BookingDTO> findAllBookings() {
+        return bookingRepository.findAll().stream()
+                .map(bookingMapper::map)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public List<Booking> findBookingsByUser(User user) {
-        return bookingRepository.findBookingsByUser(user);
+    public List<BookingDTO> findBookingsByUser(User user) {
+        List<Booking> bookings=bookingRepository.findBookingsByUser(user);
+        return bookings.stream().map(bookingMapper::map).collect(Collectors.toList());
     }
 
     @Override
-    public Optional<Booking> findByBookingId(Long id)  {
-        return Optional.ofNullable(bookingRepository.findById(id).orElseThrow(() -> new BookingNotFoundException(id)));
+    public Optional<BookingDTO> findByBookingId(Long id)  {
+        Booking booking =bookingRepository.findById(id).orElseThrow(() -> new BookingNotFoundException(id));
+        return Optional.ofNullable(bookingMapper.map(booking));
     }
 
     @Override
-    public Booking save(Booking booking) {
-        return bookingRepository.save(booking);
+    public BookingDTO save(BookingDTO bookingDTO) {
+        Booking booking = bookingMapper.mapDto(bookingDTO);
+        return bookingMapper.map(bookingRepository.save(booking));
     }
 
     @Override
-    public Booking update(Long id, Booking booking) {
+    public BookingDTO update(Long id, BookingDTO bookingDTO) {
         return bookingRepository.findById(id)
                 .map(existingBooking->{
-                    existingBooking.setIsPaid(booking.getIsPaid());
-                    existingBooking.setCabinPrice(booking.getCabinPrice());
-                    existingBooking.setExtrasPrice(booking.getExtrasPrice());
-                    existingBooking.setTotalPrice(booking.getTotalPrice());
-                    existingBooking.setStartDate(booking.getStartDate());
-                    existingBooking.setEndDate(booking.getEndDate());
-                    existingBooking.setNumGuests(booking.getNumGuests());
-                    existingBooking.setNumNights(booking.getNumNights());
-                    existingBooking.setStatus(booking.getStatus());
-                    existingBooking.setCabin(booking.getCabin());
-                    existingBooking.setUser(booking.getUser());
+                    existingBooking.setIsPaid(bookingDTO.getIsPaid());
+                    existingBooking.setCabinPrice(bookingDTO.getCabinPrice());
+                    existingBooking.setExtrasPrice(bookingDTO.getExtrasPrice());
+                    existingBooking.setTotalPrice(bookingDTO.getTotalPrice());
+                    existingBooking.setStartDate(bookingDTO.getStartDate());
+                    existingBooking.setEndDate(bookingDTO.getEndDate());
+                    existingBooking.setNumGuests(bookingDTO.getNumGuests());
+                    existingBooking.setNumNights(bookingDTO.getNumNights());
+                    existingBooking.setStatus(bookingDTO.getStatus());
+                    existingBooking.setCabin(bookingDTO.getCabin());
+                    existingBooking.setUser(bookingDTO.getUser());
 
-                    return bookingRepository.save(existingBooking);
+                    return bookingMapper.map(bookingRepository.save(existingBooking));
                 })
                 .orElseThrow(() -> new BookingNotFoundException(id));
 

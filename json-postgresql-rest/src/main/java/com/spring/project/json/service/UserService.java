@@ -1,27 +1,35 @@
 package com.spring.project.json.service;
 
+import com.spring.project.json.dto.UserDTO;
 import com.spring.project.json.model.User;
+import jakarta.validation.Valid;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
 import java.util.Optional;
 
+@Validated
 public interface UserService {
 
-     List<User> getUsers();
+     List<UserDTO> getUsers();
 
-     Optional<User> getUserByUsername(String username);
+     Optional<UserDTO> getUserByUsername(String username);
+
+     Optional<User> getUserByUsernamee(String username);
 
      boolean hasUserWithUsername(String username);
 
      boolean hasUserWithEmail(String email);
 
-     User validateAndGetUserByUsername(String username);
+     UserDTO validateAndGetUserByUsername(String username);
 
-     User saveUser(User user);
+     User validateAndGetUserByUsernamee(String username);
+
+     UserDTO saveUser(@Valid UserDTO userDTO);
 
      void deleteUser(User user);
 
-     Optional<User> validUsernameAndPassword(String username, String password);
+     Optional<UserDTO> validUsernameAndPassword(String username, String password);
 
 
 }

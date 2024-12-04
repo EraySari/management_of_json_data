@@ -1,9 +1,7 @@
-package com.spring.project.json.controller;
+package com.spring.project.jsonb.controller;
 
-import com.spring.project.json.dto.CabinDTO;
-import com.spring.project.json.model.Cabin;
-import com.spring.project.json.service.CabinService;
-import jakarta.validation.Valid;
+import com.spring.project.jsonb.model.Cabin;
+import com.spring.project.jsonb.service.CabinService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -20,27 +18,27 @@ public class CabinController {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping
-    public List<CabinDTO> findAllCabins() {
+    public List<Cabin> findAllCabins() {
         return cabinService.findAllCabins();
     }
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{id}")
-    public Optional<CabinDTO> findCabinById(@PathVariable Long id) {
+    public Optional<Cabin> findCabinById(@PathVariable Long id) {
         return cabinService.findByCabinId(id);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public CabinDTO createCabin(@Valid @RequestBody CabinDTO cabinDTO) {
-        return cabinService.save(cabinDTO);
+    public Cabin createCabin(@RequestBody Cabin cabin) {
+        return cabinService.save(cabin);
     }
-
+/*
     @ResponseStatus(HttpStatus.ACCEPTED)
     @PutMapping("/{id}")
-    public CabinDTO updateCabin(@PathVariable Long id,@Valid @RequestBody CabinDTO cabinDTO) {
-        return cabinService.update(id,cabinDTO);
-    }
+    public Cabin updateCabin(@PathVariable Long id,@RequestBody Cabin cabin) {
+        return cabinService.update(id,cabin);
+    }*/
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")

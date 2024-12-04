@@ -1,6 +1,8 @@
 package com.spring.project.json.service;
 
+import com.spring.project.json.dto.UserDTO;
 import com.spring.project.json.handler.UserNotFoundException;
+import com.spring.project.json.mapper.UserMapper;
 import com.spring.project.json.model.User;
 import com.spring.project.json.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +11,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -16,15 +20,26 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final UserMapper userMapper;
 
     @Override
-    public List<User> getUsers() {
-        return userRepository.findAll();
+    public List<UserDTO> getUsers() {
+        return userRepository.findAll()
+                .stream()
+                .map(userMapper::map)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public Optional<User> getUserByUsername(String username) {
-        return Optional.ofNullable(userRepository.findByUsername(username).orElseThrow(() -> new UserNotFoundException(username)));
+    public Optional<UserDTO> getUserByUsername(String username) {
+        User user = userRepository.findByUsername(username).orElseThrow(() -> new UserNotFoundException(username));
+        return Optional.ofNullable(userMapper.map(user));
+    }
+
+    @Override
+    public Optional<User> getUserByUsernamee(String username) {
+        return Optional.ofNullable(userRepository.findByUsername(username).orElseThrow(() -> new UserNotFoundException(username))
+        );
     }
 
     @Override
@@ -38,15 +53,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User validateAndGetUserByUsername(String username) {
+    public UserDTO validateAndGetUserByUsername(String username) {
         return getUserByUsername(username)
                 .orElseThrow(() -> new UserNotFoundException(username));
     }
 
     @Override
-    public User saveUser(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        return userRepository.save(user);
+    public User validateAndGetUserByUsernamee(String username) {
+        return getUserByUsernamee(username)
+                .orElseThrow(() -> new UserNotFoundException(username));
+    }
+
+    @Override
+    public UserDTO saveUser(UserDTO userDTO) {
+        userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+
+        User user = userMapper.mapDto(userDTO);
+        return userMapper.map(userRepository.save(user));
     }
 
     @Override
@@ -58,7 +81,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> validUsernameAndPassword(String username, String password) {
+    public Optional<UserDTO> validUsernameAndPassword(String username, String password) {
+
         return getUserByUsername(username)
                 .filter(user -> passwordEncoder.matches(password, user.getPassword()));
 

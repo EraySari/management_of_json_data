@@ -1,23 +1,27 @@
 package com.spring.project.json.service;
 
+import com.spring.project.json.dto.BookingDTO;
 import com.spring.project.json.model.Booking;
 import com.spring.project.json.model.User;
+import jakarta.validation.Valid;
+import org.springframework.validation.annotation.Validated;
 
 
 import java.util.List;
 import java.util.Optional;
 
+@Validated
 public interface BookingService {
 
-    List<Booking> findAllBookings();
+    List<BookingDTO> findAllBookings();
 
-    List<Booking> findBookingsByUser(User user);
+    List<BookingDTO> findBookingsByUser(User user);
 
-    Optional<Booking> findByBookingId(Long id);
+    Optional<BookingDTO> findByBookingId(Long id);
 
-    Booking save(Booking booking);
+    BookingDTO save(@Valid BookingDTO bookingDTO);
 
-    Booking update(Long id,Booking booking);
+    BookingDTO update(Long id,@Valid BookingDTO bookingDTO);
 
     void delete(Long id);
 }

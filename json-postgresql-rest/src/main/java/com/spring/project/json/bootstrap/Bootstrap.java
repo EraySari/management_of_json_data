@@ -1,6 +1,8 @@
 package com.spring.project.json.bootstrap;
 
 import com.spring.project.json.config.WebSecurityConfig;
+import com.spring.project.json.dto.UserDTO;
+import com.spring.project.json.mapper.UserMapper;
 import com.spring.project.json.model.Cabin;
 import com.spring.project.json.model.User;
 import com.spring.project.json.repository.CabinRepository;
@@ -29,6 +31,7 @@ public class Bootstrap implements CommandLineRunner {
     private final UserService userService;
     private final UserRepository userRepository;
     private final CabinRepository cabinRepository;
+    private final UserMapper userMapper;
 
     @Override
     public void run(String... args) throws Exception {
@@ -43,7 +46,11 @@ public class Bootstrap implements CommandLineRunner {
             }
             users.add(new User("admin", "password", "Admin", "admin@admin", WebSecurityConfig.ADMIN));
 
-            users.forEach(userService::saveUser);
+            //users.forEach(userService::saveUser);
+            users.forEach(user -> {
+                UserDTO userDTO = userMapper.map(user); // Convert User to UserDTO
+                userService.saveUser(userDTO); // Call saveUser with UserDTO
+            });
 
             List<Cabin> cabins = new ArrayList<>();
             for (int i = 1; i <= 1000; i++) {

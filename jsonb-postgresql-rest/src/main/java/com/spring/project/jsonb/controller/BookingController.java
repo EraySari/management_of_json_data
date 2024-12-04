@@ -1,13 +1,9 @@
-package com.spring.project.json.controller;
+package com.spring.project.jsonb.controller;
 
-import com.spring.project.json.dto.BookingDTO;
-import com.spring.project.json.dto.UserDTO;
-import com.spring.project.json.mapper.UserMapper;
-import com.spring.project.json.model.Booking;
-import com.spring.project.json.model.User;
-import com.spring.project.json.service.BookingService;
-import com.spring.project.json.service.UserService;
-import jakarta.validation.Valid;
+import com.spring.project.jsonb.model.Booking;
+import com.spring.project.jsonb.model.User;
+import com.spring.project.jsonb.service.BookingService;
+import com.spring.project.jsonb.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -24,42 +20,41 @@ public class BookingController {
 
     private final BookingService bookingService;
     private final UserService userService;
-    private final UserMapper userMapper;
 
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     @ResponseStatus(HttpStatus.OK)
     @GetMapping
-    public List<BookingDTO> findAllBookings() {
+    public List<Booking> findAllBookings() {
         return bookingService.findAllBookings();
     }
 
     @PreAuthorize("hasAnyAuthority('ADMIN', 'USER')")
     @GetMapping("/user/{username}/bookings")
-    public List<BookingDTO> findBookingsByUser(@PathVariable String username) {
-        User user = userService.validateAndGetUserByUsernamee(username);
+    public List<Booking> findBookingsByUser(@PathVariable String username) {
+        User user = userService.validateAndGetUserByUsername(username);
         return bookingService.findBookingsByUser(user);
     }
 
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{id}")
-    public Optional<BookingDTO> findBookingById(@PathVariable Long id) {
+    public Optional<Booking> findBookingById(@PathVariable Long id) {
         return bookingService.findByBookingId(id);
     }
 
     @PreAuthorize("hasAnyAuthority('ADMIN','USER')")
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public BookingDTO createBooking(@Valid @RequestBody BookingDTO bookingDTO) {
-        return bookingService.save(bookingDTO);
+    public Booking createBooking(@RequestBody Booking booking) {
+        return bookingService.save(booking);
     }
 
-    @PreAuthorize("hasAnyAuthority('ADMIN','USER')")
+/*    @PreAuthorize("hasAnyAuthority('ADMIN','USER')")
     @ResponseStatus(HttpStatus.ACCEPTED)
     @PutMapping("/{id}")
-    public BookingDTO updateBooking(@PathVariable Long id,@Valid @RequestBody BookingDTO bookingDTO) {
-        return bookingService.update(id,bookingDTO);
-    }
+    public Booking updateBooking(@PathVariable Long id,@RequestBody Booking booking) {
+        return bookingService.update(id,booking);
+    }*/
 
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     @ResponseStatus(HttpStatus.NO_CONTENT)

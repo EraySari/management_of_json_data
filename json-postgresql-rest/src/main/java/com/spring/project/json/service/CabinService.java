@@ -1,19 +1,23 @@
 package com.spring.project.json.service;
 
+import com.spring.project.json.dto.CabinDTO;
 import com.spring.project.json.model.Cabin;
+import jakarta.validation.Valid;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
 import java.util.Optional;
 
+@Validated
 public interface CabinService {
 
-    List<Cabin> findAllCabins();
+    List<CabinDTO> findAllCabins();
 
-    Optional<Cabin> findByCabinId(Long id);
+    Optional<CabinDTO> findByCabinId(Long id);
 
-    Cabin save(Cabin cabin);
+    CabinDTO save(@Valid CabinDTO cabinDTO);
 
-    Cabin update(Long id,Cabin cabin);
+    CabinDTO update(Long id,@Valid CabinDTO cabinDTO);
 
     void delete(Long id);
 
