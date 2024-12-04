@@ -5,8 +5,14 @@ const StyledFormRow = styled.div`
   align-items: center;
   grid-template-columns: 18rem 1.8fr 1fr;
   gap: 2rem;
-
   padding: 1.1rem 0;
+
+  &:has(button) {
+    display: flex;
+    justify-content: end;
+    padding-top: 5rem;
+    padding-bottom: 0;
+  }
 `;
 
 const Label = styled.label`
@@ -15,14 +21,16 @@ const Label = styled.label`
 `;
 
 /* eslint-disable react/prop-types */
-function FormRow({ label, children }) {
-  console.log({ children });
+function FormRow({ label, children, errors }) {
   return (
     <StyledFormRow>
-      <Label htmlFor={children.props.id}>{label}</Label>
+      {label && <Label htmlFor={children.props.id}>{label}</Label>}
       {children}
+      {errors && <p>{errors}</p>}
     </StyledFormRow>
   );
 }
 
 export default FormRow;
+
+//useForm kullanraka olustur. Errorlari falan isle

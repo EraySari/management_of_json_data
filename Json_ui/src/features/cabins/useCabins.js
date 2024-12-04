@@ -5,7 +5,6 @@ import { useAuth } from "../../context/AuthContext";
 export function useCabins() {
   const { getUser } = useAuth();
   const user = getUser(); //localden useri aliyoruz cunku istekte auth icin lazim olacak
-  console.log(user);
 
   const {
     data: cabinsData,

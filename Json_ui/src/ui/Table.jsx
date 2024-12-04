@@ -7,7 +7,7 @@ function Table({ children, column }) {
   return (
     <TableContext.Provider value={{ column }}>
       <div
-        className="border border-gray-300 overflow-hidden rounded-lg bg-nature "
+        className="border border-gray-300 overflow-hidden rounded-lg bg-nature mb-5"
         role="table"
       >
         {children}
@@ -50,3 +50,5 @@ Table.Row = Row;
 Table.Body = Body;
 
 export default Table;
+
+//table kullanraka createcabin i yaz sonra apiyi hallet

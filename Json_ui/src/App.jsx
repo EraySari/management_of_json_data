@@ -10,6 +10,7 @@ import Settings from "./pages/Settings";
 import AppLayout from "./pages/AppLayout";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import Signup from "./pages/Signup";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   const queryClient = new QueryClient({
@@ -39,6 +40,7 @@ function App() {
           </Routes>
         </BrowserRouter>
       </AuthProvider>
+      <Toaster />
     </QueryClientProvider>
   );
 }
