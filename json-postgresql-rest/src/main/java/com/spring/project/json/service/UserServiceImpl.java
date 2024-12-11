@@ -3,7 +3,9 @@ package com.spring.project.json.service;
 import com.spring.project.json.dto.UserDTO;
 import com.spring.project.json.handler.UserNotFoundException;
 import com.spring.project.json.mapper.UserMapper;
+import com.spring.project.json.model.Booking;
 import com.spring.project.json.model.User;
+import com.spring.project.json.repository.BookingRepository;
 import com.spring.project.json.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,6 +22,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final BookingRepository bookingRepository;
     private final UserMapper userMapper;
 
     @Override
@@ -73,10 +76,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User saveUserr(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        return userRepository.save(user);
+    }
+
+    @Override
     public void deleteUser(User user) {
         if (!hasUserWithUsername(user.getUsername())) {
             throw new UserNotFoundException(user.getUsername());
         }
+
+        List<Booking> bookings = bookingRepository.findByUser(user);
+        bookingRepository.deleteAll(bookings);
         userRepository.delete(user);
     }
 

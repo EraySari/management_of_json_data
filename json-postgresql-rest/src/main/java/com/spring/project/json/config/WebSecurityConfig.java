@@ -36,6 +36,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
                         .requestMatchers(HttpMethod.GET, "/api/cabins", "/api/cabins/**").hasAnyAuthority(ADMIN, USER)
                         .requestMatchers(HttpMethod.GET, "/api/users/me").hasAnyAuthority(ADMIN, USER)
+                        .requestMatchers(HttpMethod.PUT, "/api/users/updateMe").hasAnyAuthority(ADMIN, USER)
                         .requestMatchers("/api/cabins", "/api/cabins/**").hasAuthority(ADMIN)
                         .requestMatchers("/api/users", "/api/users/**").hasAuthority(ADMIN)
                         .requestMatchers("/auth/**").permitAll()

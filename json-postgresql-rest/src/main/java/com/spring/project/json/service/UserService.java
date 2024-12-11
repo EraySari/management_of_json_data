@@ -27,6 +27,8 @@ public interface UserService {
 
      UserDTO saveUser(@Valid UserDTO userDTO);
 
+     User saveUserr( User user);
+
      void deleteUser(User user);
 
      Optional<UserDTO> validUsernameAndPassword(String username, String password);
