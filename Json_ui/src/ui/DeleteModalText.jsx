@@ -24,13 +24,14 @@ const StyledDiv = styled.div`
 `;
 
 // eslint-disable-next-line no-unused-vars
-function DeleteModalText({ name, onConfirm, onCloseModal, disabled }) {
-  console.log(disabled);
+function DeleteModalText({ name, type, onConfirm, onCloseModal, disabled }) {
   return (
     <StyledDiv>
-      <Heading as="h3">Delete {name}</Heading>
+      <Heading as="h3">
+        Delete {name} {type}
+      </Heading>
       <p>
-        Are you sure you want to delete this cabin permanently? This action
+        Are you sure you want to delete this {type} permanently? This action
         cannot be undone.
       </p>
       <div>

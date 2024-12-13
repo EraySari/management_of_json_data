@@ -4,7 +4,6 @@ import Form from "../../ui/Form";
 import FormRow from "../../ui/FormRow";
 import Input from "../../ui/Input";
 import { useCreateEditCabin } from "./useCreateEditCabin";
-import { useEffect } from "react";
 
 // eslint-disable-next-line react/prop-types, no-unused-vars
 function CreateEditCabin({ isEdit = {}, user, onCloseModal }) {
@@ -13,7 +12,7 @@ function CreateEditCabin({ isEdit = {}, user, onCloseModal }) {
   });
   const cabinID = isEdit ? isEdit.id : null;
   const { errors } = formState;
-  console.log(isEdit);
+
   const { createEditMutate, isPending } = useCreateEditCabin();
 
   const onSubmit = function (data) {
@@ -25,10 +24,6 @@ function CreateEditCabin({ isEdit = {}, user, onCloseModal }) {
 
     onCloseModal();
   };
-
-  useEffect(() => {
-    console.log("isLoading durumu değişti:", isPending);
-  }, [isPending]);
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>

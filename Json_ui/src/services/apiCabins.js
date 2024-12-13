@@ -14,9 +14,6 @@ export async function getCabins(user) {
   return data;
 }
 
-//useEffect dependency arraye bak sonra(sonra)
-// locale veriyi base64 ile kaydettik daha sonra contexten getUser ile useri cektik ve cabins istegi atarken kullandik. Simdi listeleniyorlar
-
 export async function deleteCabin(data) {
   console.log(data.user);
   const basicAuth = JSON.parse(data.user);

@@ -11,6 +11,7 @@ export default {
         nature1: "#EEEFF0",
         nature2: "#5A6C57",
         nature3: "#525B44",
+        buttonHover: "#E7E9E9",
       },
     },
   },

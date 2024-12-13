@@ -11,7 +11,7 @@ export function useCabins() {
     isLoading,
     error,
   } = useQuery({
-    queryKey: ["cabins", user], //parametre olarak yollamak icin useri buraya ekledik.
+    queryKey: ["cabins"],
     queryFn: () => getCabins(user),
   });
 

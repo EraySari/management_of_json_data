@@ -19,9 +19,9 @@ function CabinRow({ cabin }) {
   return (
     <Table.Row>
       <div></div>
-      <div className="text-base font-semibold">{name}</div>
+      <div className="text-base font-medium">{name}</div>
       <div className="text-sm">Fits up to {maxCapacity} guests</div>
-      <div className="font-semibold">{regularPrice}</div>
+      <div className="font-medium">{regularPrice}</div>
       <div className=" text-green-700 font-medium"> {discount}</div>
 
       <div className="flex justify-between">
@@ -44,6 +44,8 @@ function CabinRow({ cabin }) {
           </Modal.Open>
           <Modal.Window name="delete">
             <DeleteModalText
+              name={name}
+              type="cabin"
               onConfirm={() => deleteMutate({ user, cabinID })}
               disabled={isDeleting}
             />

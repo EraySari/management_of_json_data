@@ -11,6 +11,8 @@ import AppLayout from "./pages/AppLayout";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import Signup from "./pages/Signup";
 import { Toaster } from "react-hot-toast";
+import PageNotFound from "./pages/PageNotFound";
+import Booking from "./pages/Booking";
 
 function App() {
   const queryClient = new QueryClient({
@@ -34,9 +36,11 @@ function App() {
               <Route path="/login" element={<LoginForm />} />
               <Route path="/cabins" element={<Cabin />} />
               <Route path="/bookings" element={<Bookings />} />
+              <Route path="/bookings/:bookingId" element={<Booking />} />
               <Route path="/users" element={<User />} />
               <Route path="/settings" element={<Settings />} />
             </Route>
+            <Route path="*" element={<PageNotFound />} />
           </Routes>
         </BrowserRouter>
       </AuthProvider>
@@ -47,4 +51,4 @@ function App() {
 
 export default App;
 
-// 1 - Cabin create icin button olustur ve modalda form acilsin
+// TODO: queryKeyde 2. paramtreyi arastir
