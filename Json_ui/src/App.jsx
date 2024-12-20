@@ -13,6 +13,8 @@ import Signup from "./pages/Signup";
 import { Toaster } from "react-hot-toast";
 import PageNotFound from "./pages/PageNotFound";
 import Booking from "./pages/Booking";
+import CreateBooking from "./features/bookings/CreateBooking";
+import ProtectedRouter from "./ui/ProtectedRouter";
 
 function App() {
   const queryClient = new QueryClient({
@@ -29,17 +31,28 @@ function App() {
       <AuthProvider>
         <BrowserRouter>
           <Routes>
-            <Route element={<AppLayout />}>
+            <Route
+              element={
+                <ProtectedRouter>
+                  <AppLayout />
+                </ProtectedRouter>
+              }
+            >
               <Route index element={<Navigate replace to="/home" />} />
               <Route path="/home" element={<Home />} />
-              <Route path="/signup" element={<Signup />} />
-              <Route path="/login" element={<LoginForm />} />
+
               <Route path="/cabins" element={<Cabin />} />
               <Route path="/bookings" element={<Bookings />} />
               <Route path="/bookings/:bookingId" element={<Booking />} />
+              <Route
+                path="/createBooking/:bookingId"
+                element={<CreateBooking />}
+              />
               <Route path="/users" element={<User />} />
               <Route path="/settings" element={<Settings />} />
             </Route>
+            <Route path="/login" element={<LoginForm />} />
+            <Route path="/signup" element={<Signup />} />
             <Route path="*" element={<PageNotFound />} />
           </Routes>
         </BrowserRouter>

@@ -1,9 +1,11 @@
 import { useMutation } from "@tanstack/react-query";
 import userLogin from "../../services/apiAuth";
 import { useAuth } from "../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 export default function useLogin() {
   const { userLocal } = useAuth();
+  const navigate = useNavigate();
 
   const { mutate: loginMutate, isLoading: isLogin } = useMutation({
     mutationFn: ({ username, password }) => userLogin({ username, password }), // username ve
@@ -20,6 +22,8 @@ export default function useLogin() {
       ); // btoa formatina dönüstürülüyor
 
       userLocal(JSON.stringify({ ...userData.data, authdata })); //locale kaydediliyor
+
+      navigate("/home"); // kullanici ana ekrana atiliyor
     },
 
     onError: (err) => {

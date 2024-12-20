@@ -14,6 +14,22 @@ export async function getCabins(user) {
   return data;
 }
 
+export async function getCabin(user, bookingID) {
+  const basicAuth = JSON.parse(user);
+  const res = await fetch(`http://localhost:8080/api/cabins/${bookingID}`, {
+    method: "GET",
+    headers: { Authorization: `Basic ${basicAuth.authdata}` },
+  });
+
+  if (!res.ok) {
+    throw new Error(`Error: ${res.status} - ${res.statusText}`);
+  }
+
+  const data = await res.json();
+
+  return data;
+}
+
 export async function deleteCabin(data) {
   console.log(data.user);
   const basicAuth = JSON.parse(data.user);

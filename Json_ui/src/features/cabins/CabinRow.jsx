@@ -7,6 +7,8 @@ import CreateEditCabin from "./CreateEditCabin";
 import DeleteModalText from "../../ui/DeleteModalText";
 import useDeleteCabin from "./useDeleteCabin";
 import { useAuth } from "../../context/AuthContext";
+import { BiBasket } from "react-icons/bi";
+import { useNavigate } from "react-router-dom";
 
 /* eslint-disable react/prop-types */
 function CabinRow({ cabin }) {
@@ -15,6 +17,8 @@ function CabinRow({ cabin }) {
 
   const { getUser } = useAuth();
   const user = getUser();
+
+  const navigate = useNavigate();
 
   return (
     <Table.Row>
@@ -35,6 +39,10 @@ function CabinRow({ cabin }) {
             <CreateEditCabin isEdit={cabin} user={user} />
           </Modal.Window>
         </Modal>
+
+        <button onClick={() => navigate(`/createBooking/${cabinID}`)}>
+          <BiBasket />
+        </button>
 
         <Modal>
           <Modal.Open modalName="delete">

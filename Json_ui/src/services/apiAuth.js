@@ -42,5 +42,24 @@ export default async function userLogin({ username, password }) {
   return { data, password };
 }
 
-// 1 - localden user'i getir
-// 2 - istek atarken headers icinde kullan
+export async function getMe(user) {
+  const userData = JSON.parse(user);
+  console.log(userData);
+  const res = await fetch("http://localhost:8080/api/users/me", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Basic ${userData.authdata}`,
+    },
+  });
+
+  if (!res.ok) {
+    throw new Error(`${res.status} - ${res.statusText}`);
+  }
+
+  const data = await res.json();
+
+  console.log(data);
+
+  return data;
+}
