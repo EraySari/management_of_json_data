@@ -46,6 +46,9 @@ public class BookingDTO {
     @NotNull(message = "EndDate is mandatory")
     private Date endDate;
 
+    @NotNull(message = "IsBreakfast is mandatory")
+    private Boolean isBreakfast;
+
     @NotNull(message = "NumNights is mandatory")
     @Min(value = 1,message = "NumNights must be least 1 ")
     private Integer numNights;

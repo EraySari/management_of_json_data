@@ -28,6 +28,7 @@ public class Booking{
     private String status;
     private Date startDate;
     private Date endDate;
+    private Boolean isBreakfast;
     private Integer numNights;
     private Integer numGuests;
 
