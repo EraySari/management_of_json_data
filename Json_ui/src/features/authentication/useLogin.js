@@ -23,7 +23,7 @@ export default function useLogin() {
 
       userLocal(JSON.stringify({ ...userData.data, authdata })); //locale kaydediliyor
 
-      navigate("/home"); // kullanici ana ekrana atiliyor
+      navigate("/home", { replace: true }); // kullanici ana ekrana atiliyor
     },
 
     onError: (err) => {

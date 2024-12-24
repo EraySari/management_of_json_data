@@ -7,7 +7,6 @@ export function useGetMe() {
   const user = getUser();
   const { data: userData, isPending } = useQuery({
     queryFn: () => getMe(user),
-    queryKey: ["user"],
 
     onSuccess: () => {
       console.log("succes");

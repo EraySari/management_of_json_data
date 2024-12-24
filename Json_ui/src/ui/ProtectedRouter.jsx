@@ -1,32 +1,31 @@
 /* eslint-disable react/prop-types */
 import { useNavigate } from "react-router-dom";
-import { useGetMe } from "../features/authentication/useGetMe";
-import Spinner from "./Spinner";
 import { useEffect } from "react";
+import { useAuth } from "../context/AuthContext";
 
 function ProtectedRouter({ children }) {
   // eslint-disable-next-line no-unused-vars
-  const { userData, isPending } = useGetMe();
+
+  const { userIsLogin } = useAuth();
+  const isLogin = userIsLogin();
   const navigate = useNavigate();
 
-  console.log(userData);
+  console.log(isLogin);
   // 1 - kullanici yoksa red
   useEffect(
     function () {
-      console.log("effect ", userData);
-      if (!userData && !isPending) {
+      console.log("effect ", isLogin);
+      if (!isLogin) {
         //yükleme bitti ve user yok ise
         console.log("yok");
-        navigate("/login");
+        navigate("/login", { replace: true });
       }
     },
-    [userData, isPending, navigate]
+    [isLogin, navigate]
   );
 
-  if (isPending) return <Spinner />; //yükleme sirasinda spinner
-
   // 2 - kullanici varsa onay ver
-  if (userData) {
+  if (isLogin) {
     return children;
   }
 }

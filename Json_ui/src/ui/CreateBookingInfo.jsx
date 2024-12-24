@@ -327,4 +327,4 @@ export default CreateBookingInfo;
 //sayfa düzenini ayarla cok karisik oldu. Onsubmite de bak farkli bir yol olabilir mi diye
 // footer siparis kismini duzenle
 // modal pencere ac
-//login signup kisimlarini yap bundan önce protected router yap
+//login signup kisimlarini yap bundan önce protected router yap, logout apisi oluyo mu bak cok hizli gecis oluyo
