@@ -10,21 +10,18 @@ function ProtectedRouter({ children }) {
   const isLogin = userIsLogin();
   const navigate = useNavigate();
 
-  console.log(isLogin);
-  // 1 - kullanici yoksa red
+  // 1 - IF we have NOT USER
   useEffect(
     function () {
-      console.log("effect ", isLogin);
       if (!isLogin) {
-        //yükleme bitti ve user yok ise
-        console.log("yok");
+        //Loading is finished and we have no user
         navigate("/login", { replace: true });
       }
     },
     [isLogin, navigate]
   );
 
-  // 2 - kullanici varsa onay ver
+  // 2 - if we have USER
   if (isLogin) {
     return children;
   }

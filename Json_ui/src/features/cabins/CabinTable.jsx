@@ -10,8 +10,9 @@ import { useCabins } from "./useCabins";
 function CabinTable() {
   // eslint-disable-next-line no-unused-vars
   const { cabinsData, isLoading } = useCabins();
-  const { getUser } = useAuth();
+  const { getUser, isUser } = useAuth();
   const user = getUser();
+  const role = isUser();
 
   if (isLoading) return <Spinner />; // hata burasiymis. Ben direkt cabinsDatayi
   //alip yazdirmaya calistim ama yuklerken yani isLoading true iken
@@ -38,16 +39,20 @@ function CabinTable() {
       </Table>
 
       {/* TODO: Add Cabin Button */}
-      <Modal>
-        <Modal.Open modalName="createCabin">
-          <Button sizes="large" variation="secondary">
-            Create a new cabin
-          </Button>
-        </Modal.Open>
-        <Modal.Window name="createCabin">
-          <CreateEditCabin user={user} />
-        </Modal.Window>
-      </Modal>
+      {role === "ADMIN" ? (
+        <Modal>
+          <Modal.Open modalName="createCabin">
+            <Button sizes="large" variation="secondary">
+              Create a new cabin
+            </Button>
+          </Modal.Open>
+          <Modal.Window name="createCabin">
+            <CreateEditCabin user={user} />
+          </Modal.Window>
+        </Modal>
+      ) : (
+        ""
+      )}
     </div>
   );
 }

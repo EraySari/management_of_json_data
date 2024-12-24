@@ -17,8 +17,9 @@ import { useNavigate } from "react-router-dom";
 function BookingRow({ booking }) {
   const { deleteBookingMutate } = useDeleteBooking();
 
-  const { getUser } = useAuth();
+  const { getUser, isUser } = useAuth();
   const user = getUser();
+  const role = isUser();
 
   const navigate = useNavigate();
 
@@ -44,22 +45,26 @@ function BookingRow({ booking }) {
       <div className="font-medium">{booking.totalPrice}</div>
 
       <div>
-        <Modal>
-          <Modal.Open modalName="delete">
-            <button>
-              <HiOutlineTrash color="#FB4B4E" size={18} />
-            </button>
-          </Modal.Open>
-          <Modal.Window name="delete">
-            <DeleteModalText
-              name={booking.cabin.name}
-              type="booking"
-              onConfirm={() =>
-                deleteBookingMutate({ user, bookingID: booking.id })
-              }
-            />
-          </Modal.Window>
-        </Modal>
+        {role === "ADMIN" ? (
+          <Modal>
+            <Modal.Open modalName="delete">
+              <button>
+                <HiOutlineTrash color="#FB4B4E" size={18} />
+              </button>
+            </Modal.Open>
+            <Modal.Window name="delete">
+              <DeleteModalText
+                name={booking.cabin.name}
+                type="booking"
+                onConfirm={() =>
+                  deleteBookingMutate({ user, bookingID: booking.id })
+                }
+              />
+            </Modal.Window>
+          </Modal>
+        ) : (
+          ""
+        )}
 
         <button onClick={() => navigate(`/bookings/${booking.id}`)}>
           <HiEye color="gray" size={18} />

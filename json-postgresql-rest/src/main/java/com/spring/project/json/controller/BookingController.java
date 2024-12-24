@@ -40,7 +40,7 @@ public class BookingController {
         return bookingService.findBookingsByUser(user);
     }
 
-    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ADMIN','USER')")
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{id}")
     public Optional<BookingDTO> findBookingById(@PathVariable Long id) {

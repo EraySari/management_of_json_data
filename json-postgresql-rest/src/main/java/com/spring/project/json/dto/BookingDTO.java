@@ -29,7 +29,7 @@ public class BookingDTO {
     private Float cabinPrice;
 
     @NotNull(message = "ExtrasPrice is mandatory")
-    @Min(value = 1,message = "ExtrasPrice must be least 1 ")
+    @Min(value = 0,message = "ExtrasPrice must be least 0 ")
     private Float extrasPrice;
 
     @NotNull(message = "TotalPrice is mandatory")

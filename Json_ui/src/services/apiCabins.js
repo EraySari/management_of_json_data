@@ -1,5 +1,6 @@
 export async function getCabins(user) {
   const basicAuth = JSON.parse(user);
+
   const res = await fetch("http://localhost:8080/api/cabins", {
     method: "GET",
     headers: { Authorization: `Basic ${basicAuth.authdata}` },
@@ -26,6 +27,7 @@ export async function getCabin(user, bookingID) {
   }
 
   const data = await res.json();
+  console.log(data);
 
   return data;
 }

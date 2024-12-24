@@ -1,10 +1,17 @@
 export async function getBookings(user) {
   const userData = JSON.parse(user);
 
-  const res = await fetch("http://localhost:8080/api/booking", {
-    method: "GET",
-    headers: { Authorization: `Basic ${userData.authdata}` },
-  });
+  const res = await fetch(
+    `${
+      userData.role === "ADMIN"
+        ? "http://localhost:8080/api/booking"
+        : `http://localhost:8080/api/booking/user/${userData.username}/bookings`
+    }`,
+    {
+      method: "GET",
+      headers: { Authorization: `Basic ${userData.authdata}` },
+    }
+  );
 
   if (!res.ok) {
     throw new Error(`Error: ${res.status} - ${res.statusText}`);

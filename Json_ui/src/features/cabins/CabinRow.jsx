@@ -17,6 +17,7 @@ function CabinRow({ cabin }) {
 
   const { getUser } = useAuth();
   const user = getUser();
+  const role = JSON.parse(user).role;
 
   const navigate = useNavigate();
 
@@ -29,36 +30,49 @@ function CabinRow({ cabin }) {
       <div className=" text-green-700 font-medium"> {discount}</div>
 
       <div className="flex justify-between">
-        <Modal>
-          <Modal.Open modalName="editCabin">
-            <button>
-              <HiOutlinePencilSquare size={20} />
-            </button>
-          </Modal.Open>
-          <Modal.Window name="editCabin">
-            <CreateEditCabin isEdit={cabin} user={user} />
-          </Modal.Window>
-        </Modal>
+        {role === "ADMIN" ? (
+          <Modal>
+            <Modal.Open modalName="editCabin">
+              <button>
+                <HiOutlinePencilSquare size={20} />
+              </button>
+            </Modal.Open>
+            <Modal.Window name="editCabin">
+              <CreateEditCabin isEdit={cabin} user={user} />
+            </Modal.Window>
+          </Modal>
+        ) : (
+          ""
+        )}
 
-        <button onClick={() => navigate(`/createBooking/${cabinID}`)}>
-          <BiBasket />
-        </button>
+        {role === "USER" ? (
+          <button onClick={() => navigate(`/createBooking/${cabinID}`)}>
+            <BiBasket />
+          </button>
+        ) : (
+          ""
+        )}
 
-        <Modal>
-          <Modal.Open modalName="delete">
-            <button>
-              <HiOutlineTrash color="#FB4B4E" size={20} />
-            </button>
-          </Modal.Open>
-          <Modal.Window name="delete">
-            <DeleteModalText
-              name={name}
-              type="cabin"
-              onConfirm={() => deleteMutate({ user, cabinID })}
-              disabled={isDeleting}
-            />
-          </Modal.Window>
-        </Modal>
+        {role === "ADMIN" ? (
+          <Modal>
+            <Modal.Open modalName="delete">
+              <button>
+                <HiOutlineTrash color="#FB4B4E" size={20} />
+              </button>
+            </Modal.Open>
+
+            <Modal.Window name="delete">
+              <DeleteModalText
+                name={name}
+                type="cabin"
+                onConfirm={() => deleteMutate({ user, cabinID })}
+                disabled={isDeleting}
+              />
+            </Modal.Window>
+          </Modal>
+        ) : (
+          ""
+        )}
       </div>
     </Table.Row>
   );

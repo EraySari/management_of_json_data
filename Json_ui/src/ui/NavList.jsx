@@ -4,8 +4,12 @@ import { HiOutlineHomeModern } from "react-icons/hi2";
 import { HiCalendarDays } from "react-icons/hi2";
 import { HiOutlineCog6Tooth } from "react-icons/hi2";
 import { HiOutlineUser } from "react-icons/hi2";
+import { useAuth } from "../context/AuthContext";
 
 function NavList() {
+  const { isUser } = useAuth();
+  const role = isUser();
+
   return (
     <ul className="flex flex-col gap-2 py-10 text-base font-medium text-gray-600">
       <li>
@@ -22,13 +26,14 @@ function NavList() {
 
       <li>
         <NavLink className="styledNavLink" to="/bookings">
-          <HiCalendarDays size={25} /> Bookings
+          <HiCalendarDays size={25} />{" "}
+          {role === "ADMIN" ? "Bookings" : "My Bookings"}
         </NavLink>
       </li>
 
       <li>
         <NavLink className="styledNavLink" to="/users">
-          <HiOutlineUser size={25} /> Users
+          <HiOutlineUser size={25} /> {role === "ADMIN" ? "Users" : "Profile"}
         </NavLink>
       </li>
 

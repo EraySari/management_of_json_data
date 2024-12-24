@@ -1,24 +1,33 @@
-import { useQueryClient } from "@tanstack/react-query";
 import Button from "../../ui/Button";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../context/AuthContext";
 import { HiArrowRightOnRectangle } from "react-icons/hi2";
+import useLogout from "./useLogout";
+
+import Modal from "../../ui/Modal";
+import LogoutModal from "../../ui/LogoutModal";
+import { useAuth } from "../../context/AuthContext";
 
 function Logout() {
-  const queryClient = useQueryClient();
-  const navigate = useNavigate();
-  const { userLogout } = useAuth();
-
-  function handleLogout() {
-    userLogout();
-    queryClient.removeQueries();
-    navigate("/login");
-  }
-
+  const { logoutMutate, isPending } = useLogout();
+  const { getUser } = useAuth();
+  const user = getUser();
+  const name = JSON.parse(user).name;
+  console.log(user);
   return (
-    <Button onClick={() => handleLogout()}>
-      <HiArrowRightOnRectangle />
-    </Button>
+    <Modal>
+      <Modal.Open modalName="logout">
+        <Button disabled={isPending}>
+          <HiArrowRightOnRectangle />
+        </Button>
+      </Modal.Open>
+
+      <Modal.Window name="logout">
+        <LogoutModal
+          name={name}
+          onConfirm={() => logoutMutate()}
+          disabled={isPending}
+        />
+      </Modal.Window>
+    </Modal>
   );
 }
 

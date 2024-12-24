@@ -40,7 +40,6 @@ function App() {
             >
               <Route index element={<Navigate replace to="/home" />} />
               <Route path="/home" element={<Home />} />
-
               <Route path="/cabins" element={<Cabin />} />
               <Route path="/bookings" element={<Bookings />} />
               <Route path="/bookings/:bookingId" element={<Booking />} />
@@ -64,4 +63,9 @@ function App() {
 
 export default App;
 
-// TODO: queryKeyde 2. paramtreyi arastir
+// TODO:
+// bookingsi silmeyi userdan kaldir, sadece istek atabilsin. Iptal istegi gibi
+// cikis yapacakken modal acilip sorsun
+// logout apisini kullan
+//spinneri spinner mini ile degistir
+//deleteModal textin componentini kullan ismini degistir cogu yerde kullanabil

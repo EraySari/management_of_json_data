@@ -17,7 +17,6 @@ function Modal({ children }) {
   );
 }
 
-// eslint-disable-next-line no-unused-vars
 function Open({ children, modalName }) {
   const { open } = useContext(ModalContext);
 

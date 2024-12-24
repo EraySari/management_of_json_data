@@ -38,8 +38,22 @@ export default async function userLogin({ username, password }) {
   }
 
   const data = await res.json();
+  console.log({ data, username, password });
 
-  return { data, password };
+  return { data, username, password };
+}
+
+export async function userLogout() {
+  const res = await fetch("http://localhost:8080/auth/logout", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!res.ok) {
+    throw new Error(`Error: ${res.status} - ${res.statusText}`);
+  }
 }
 
 export async function getMe(user) {

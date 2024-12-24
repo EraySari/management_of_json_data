@@ -25,7 +25,7 @@ import java.util.Optional;
 @RequestMapping("/auth")
 public class AuthController {
 
-    public record AuthResponse(Long id, String name, String role) {
+    public record AuthResponse(Long id, String name, String username, String role) {
     }
 
     private record LoginRequest(String username, String password) {
@@ -43,7 +43,7 @@ public class AuthController {
         Optional<UserDTO> userOptional = Optional.ofNullable(userService.validUsernameAndPassword(loginRequest.username, loginRequest.password).orElseThrow(() -> new UserNotFoundException("username or password")));
         if (userOptional.isPresent()) {
             UserDTO user = userOptional.get();
-            return ResponseEntity.ok(new AuthResponse(user.getId(), user.getName(), user.getRole()));
+            return ResponseEntity.ok(new AuthResponse(user.getId(), user.getName(), user.getUsername(), user.getRole()));
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
@@ -68,7 +68,7 @@ public class AuthController {
         }
 
         UserDTO user = userService.saveUser(userMapper.map(createUser(signUpRequest)));
-        return new AuthResponse(user.getId(), user.getName(), user.getRole());
+        return new AuthResponse(user.getId(), user.getName(),user.getUsername(), user.getRole());
     }
 
     private User createUser(SignUpRequest signUpRequest) {

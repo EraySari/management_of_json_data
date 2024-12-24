@@ -158,7 +158,7 @@ function CreateBookingInfo() {
   const { getUser } = useAuth();
   const user = getUser();
 
-  const [extra, setExtra] = useState(false);
+  const [hasBreakfast, setBreakfast] = useState(false);
   const [guestCount, setGuestCount] = useState(1);
   const [state, setState] = useState([
     {
@@ -184,19 +184,21 @@ function CreateBookingInfo() {
     discount,
   } = cabinData;
 
-  const extraPrices = extra
+  const extraPrices = hasBreakfast
     ? (difference + 1) * 20 * (Number(guestCount) + 1)
     : 0;
   const datePrice = (difference + 1) * cabinPrice;
   const totalBookingPrice = extraPrices + datePrice;
 
+  console.log(extraPrices);
   const bookingData = {
     isPaid: false,
     cabinPrice,
-    extrasPrice: 50,
-    totalPrice: 500,
+    extrasPrice: extraPrices,
+    totalPrice: totalBookingPrice,
     numGuests: Number(guestCount),
     status: "Confirmed",
+    isBreakfast: hasBreakfast,
     startDate: format(state[0].startDate, "yyyy-MM-dd"),
     endDate: format(state[0].endDate, "yyyy-MM-dd"),
     numNights: difference,
@@ -271,8 +273,8 @@ function CreateBookingInfo() {
               <Extras
                 type="checkbox"
                 id="isBreakfast"
-                checked={extra}
-                onChange={(e) => setExtra(!extra)}
+                checked={hasBreakfast}
+                onChange={(e) => setBreakfast(!hasBreakfast)}
               />
             </BookingOption>
             <BookingOption>

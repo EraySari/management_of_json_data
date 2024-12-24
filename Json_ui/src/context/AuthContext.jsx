@@ -10,6 +10,12 @@ export default function AuthProvider({ children }) {
     return localStorage.getItem("user") !== null;
   }
 
+  function isUser() {
+    const user = userIsLogin();
+    const role = user ? JSON.parse(getUser()).role : null;
+    return role;
+  }
+
   function getUser() {
     return localStorage.getItem("user");
   }
@@ -20,14 +26,14 @@ export default function AuthProvider({ children }) {
     setUser(user);
   }
 
-  function userLogout() {
+  function removeFromLocal() {
     localStorage.removeItem("user");
     setUser(null);
   }
 
   return (
     <AuthContext.Provider
-      value={{ user, userIsLogin, getUser, userLocal, userLogout }}
+      value={{ user, userIsLogin, isUser, getUser, userLocal, removeFromLocal }}
     >
       {children}
     </AuthContext.Provider>

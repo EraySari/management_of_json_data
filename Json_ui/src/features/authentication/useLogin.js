@@ -17,9 +17,8 @@ export default function useLogin() {
       //userloginden {data,password} seklinde return aldim
       console.log("Login sorgusu basarili");
 
-      const authdata = window.btoa(
-        `${userData.data.name}:${userData.password}`
-      ); // btoa formatina dönüstürülüyor
+      console.log(userData);
+      const authdata = window.btoa(`${userData.username}:${userData.password}`); // btoa formatina dönüstürülüyor
 
       userLocal(JSON.stringify({ ...userData.data, authdata })); //locale kaydediliyor
 
