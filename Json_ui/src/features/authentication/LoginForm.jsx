@@ -1,6 +1,11 @@
 import { useState } from "react";
 import useLogin from "./useLogin";
-import { useAuth } from "../../context/AuthContext";
+import Form from "../../ui/Form";
+import Input from "../../ui/Input";
+import FormVertical from "../../ui/FormVertical";
+import Button from "../../ui/Button";
+import { Link } from "react-router-dom";
+import SpinnerMini from "../../ui/SpinnerMini";
 
 function LoginForm() {
   const [username, setUsername] = useState("");
@@ -11,10 +16,6 @@ function LoginForm() {
   // eslint-disable-next-line no-unused-vars
   const { loginMutate, isLogin } = useLogin();
 
-  const { userIsLogin } = useAuth();
-  // eslint-disable-next-line no-unused-vars
-  const isLoggedIn = userIsLogin();
-
   const handleSubmit = function (e) {
     e.preventDefault();
 
@@ -24,39 +25,54 @@ function LoginForm() {
     }
 
     try {
-      loginMutate({ username, password }); // onSucces ise btoa cevirme locale kaydetme falan orda yapar
-      setUsername("");
-      setPassword("");
+      loginMutate(
+        { username, password },
+        {
+          onSettled: () => {
+            setUsername("");
+            setPassword("");
+          },
+        }
+      ); // onSucces ise btoa cevirme locale kaydetme falan orda yapar
+
       setIsError(false);
     } catch (error) {
       setIsError(true);
     }
   };
 
-  // if (isLoggedIn) return <Navigate to={"/"} />;
-
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label>Username</label>
-        <input
+    <Form onSubmit={handleSubmit}>
+      <FormVertical label="Username">
+        <Input
           type="text"
           placeholder="Username"
+          id="username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
         />
-      </div>
-      <div>
-        <label>Password</label>
-        <input
-          type="text"
+      </FormVertical>
+      <FormVertical label="Password">
+        <Input
+          type="password"
           placeholder="Password"
+          id="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-      </div>
-      <button>Login</button>
-    </form>
+      </FormVertical>
+      <FormVertical>
+        <Button sizes="large" variation="secondary">
+          {isLogin ? <SpinnerMini /> : "Log in"}
+        </Button>
+        <p>
+          Dont have an account?{" "}
+          <Link className="text-blue-400 font-semibold" to="/signup">
+            Signup
+          </Link>
+        </p>
+      </FormVertical>
+    </Form>
   );
 }
 

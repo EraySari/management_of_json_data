@@ -5,6 +5,7 @@ import useLogout from "./useLogout";
 import Modal from "../../ui/Modal";
 import LogoutModal from "../../ui/LogoutModal";
 import { useAuth } from "../../context/AuthContext";
+import SpinnerMini from "../../ui/SpinnerMini";
 
 function Logout() {
   const { logoutMutate, isPending } = useLogout();
@@ -16,7 +17,7 @@ function Logout() {
     <Modal>
       <Modal.Open modalName="logout">
         <Button disabled={isPending}>
-          <HiArrowRightOnRectangle />
+          {isPending ? <SpinnerMini /> : <HiArrowRightOnRectangle />}
         </Button>
       </Modal.Open>
 

@@ -26,7 +26,7 @@ function CreateEditCabin({ isEdit = {}, user, onCloseModal }) {
   };
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit)}>
+    <Form onSubmit={handleSubmit(onSubmit)} type="modal">
       <FormRow label="Cabin Name" errors={errors?.name?.message}>
         <Input
           type="text"

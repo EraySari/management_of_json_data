@@ -48,7 +48,9 @@ const Button = styled.button`
   ${(props) => variations[props.variation]}
   ${(props) => sizes[props.sizes]}
 
+  display: flex;
   text-align: center;
+  justify-content: center;
   border-radius: 10px;
 
   box-shadow: 0px 1px 5px #d9dcdb;
